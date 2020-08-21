@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PostsService } from '../services/posts.service';
+import { Post } from '../models/post.model';
 
 @Component({
   selector: 'post-list-item',
@@ -6,20 +8,18 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./post-list-item.component.scss'],
 })
 export class PostListItemComponent implements OnInit {
-  @Input() post: any;
+  @Input() post: Post;
 
-  constructor() {}
+  constructor(private postsService: PostsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
-  addLoveIt() {
-    this.post.loveIts += 1;
-    return this.post.loveIts;
+  onAddLoveIts(post: Post) {
+    this.postsService.addLoveIts(post);
   }
 
-  removeLoveIt() {
-    this.post.loveIts -= 1;
-    return this.post.loveIts;
+  OnremoveLoveIts(post: Post) {
+    this.postsService.removeLoveIts(post);
   }
 
   getColor() {
@@ -28,5 +28,9 @@ export class PostListItemComponent implements OnInit {
     } else if (this.post.loveIts < 0) {
       return 'red';
     }
+  }
+
+  onDeletePost(post: Post) {
+    this.postsService.deletePost(post);
   }
 }
